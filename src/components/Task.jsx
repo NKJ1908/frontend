@@ -43,7 +43,7 @@ const Task = ({ id, title, description, date, refresh, status, priority }) => {
 
       refresh();
     } catch (error) {
-      console.error("Erreur lors du changement de statut", error);
+      console.error(error);
     }
   };
   return (
@@ -60,7 +60,7 @@ const Task = ({ id, title, description, date, refresh, status, priority }) => {
             type="checkbox"
             name=""
             id=""
-            className="w-6 h-6 rounded accent-blue-500/60 px-4"
+            className="w-6 h-6 rounded accent-blue-500/60 px-4 cursor-pointer"
           />
           <h1
             className={` text-sm md:text-xl px-4 ${

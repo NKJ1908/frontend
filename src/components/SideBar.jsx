@@ -3,8 +3,10 @@ import { Home, LogOut, Menu, Settings, User, X } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Confirmation from "./Confirmation";
+import { useToast } from "../hooks/ToastContext";
 
 const SideBar = ({ open, setOpen }) => {
+  const {showToast} = useToast()
   const navigate = useNavigate();
   const StoredUser = localStorage.getItem("user");
   const user = JSON.parse(StoredUser);
@@ -23,6 +25,10 @@ const SideBar = ({ open, setOpen }) => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/");
+    showToast({
+          body: "Déconnecté",
+          className: "bg-black/60",
+      })
   };
 
   const menu = [
@@ -33,18 +39,18 @@ const SideBar = ({ open, setOpen }) => {
     },
     {
       label: "Profil",
-      path: "/profil",
+      path: "/Profil",
       icon: <User className="w-5 h-5" />,
     },
     {
       label: "Paramètres",
-      path: "/settings",
+      path: "/Settings",
       icon: <Settings className="w-5 h-5" />,
     },
   ];
 
   return (
-    <div className="w-full lg:max-w-lg">
+    <div className="w-full lg:max-w-[300px]">
       <Confirmation
         open={showDialog}
         setOpen={setShowDialog}
@@ -65,7 +71,10 @@ const SideBar = ({ open, setOpen }) => {
         ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
         <div className="h-20 flex items-center justify-between px-4 border-b border-blue-800/60">
-          <span className="text-2xl font-bold">TaskFlow</span>
+          <span className="">
+            <p className="text-2xl font-bold">TaskFlow</p>
+            <p className=" text-sm md:text-lg">Gerer vos taches efficacement</p>
+          </span>
           <button
             className="lg:hidden p-2 rounded hover:bg-blue-800/60"
             onClick={() => setOpen(false)}
@@ -89,7 +98,7 @@ const SideBar = ({ open, setOpen }) => {
               onClick={() => setOpen(false)}
               className={({ isActive }) =>
                 `flex items-center gap-3 p-3 rounded-lg transition ${
-                  isActive ? "bg-blue-700/60" : "hover:bg-blue-800/60"
+                  isActive ? "bg-blue-300/60" : "hover:bg-blue-200/60"
                 }`
               }
             >
@@ -101,7 +110,7 @@ const SideBar = ({ open, setOpen }) => {
 
         <div className="p-4 border-t border-blue-800">
           <button
-            className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-red-600 transition"
+            className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-red-600 hover:text-white transition cursor-pointer"
             onClick={decon}
           >
             <LogOut className="w-5 h-5" />

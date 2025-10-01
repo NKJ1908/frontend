@@ -4,21 +4,37 @@ import Confirmation from "./Confirmation";
 import { useState } from "react";
 import Modal from "./Modal";
 import Delete from "../Midllware/Delete";
-import EditTask from "../Midllware/EditTask";
+import { useToast } from "../hooks/ToastContext";
 
 const DrodownMenu = ({ TaskId, refrech, task }) => {
+  const {showToast} = useToast()
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState({ title: "", body: "", btn: "" });
   const [showModal, setShowModal] = useState(false);
   const edit = async () => {
     setShowModal(true);
   };
+  const delet = async () => {
+    try {
+      await Delete(TaskId);
+      showToast({
+          body: "La tâche a été supprimée avec succès",
+          className: "bg-green-500",
+      })
+    } catch (error) {
+      showToast({
+          body: error.response?.data?.message || "Erreur surevenue",
+          className: "bg-red-500",
+        });
+    }
+    refrech()
+  }
   const supp = () => {
     setOpen(true);
     setMessage({
       title: "Suppression",
-      body: "Voulez-vous vous supprimer cette tache ?",
-      btn: "Oui, supprimer",
+      body: "Voulez-vous vous supprimer cette tâche ?",
+      btn: "Supprimer",
     });
   };
   return (
@@ -27,10 +43,7 @@ const DrodownMenu = ({ TaskId, refrech, task }) => {
         open={open}
         setOpen={setOpen}
         {...message}
-        onClick={async () => {
-          await Delete(TaskId);
-          refrech();
-        }}
+        onClick={delet}
       />
       <Modal
         open={showModal}

@@ -4,6 +4,7 @@ import { Form } from "radix-ui";
 import Toasty from "../components/Toasty";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../hooks/ToastContext";
 const Register = () => {
   const [visibleP, setVisibleP] = useState(false);
   const [visibleC, setVisibleC] = useState(false);
@@ -13,17 +14,14 @@ const Register = () => {
   const [nom, setNom] = useState("");
   const navigate = useNavigate()
   const Api = import.meta.env.VITE_API_URL
-      const [message, setMessage] = useState({title:"",body:"",className:""})
-      const [open, setOpen] = useState(false)
+  const {showToast} = useToast()
   const submit = async (e) => {
     e.preventDefault();
     if (password !== confirm) {
-    setMessage({
-      title: "Erreur",
-      body: "Les mots de passe ne correspondent pas",
-      className: "bg-red-500"
-    });
-    setOpen(true);
+      showToast({
+          body: "Les mots de passes ne sont pas conformes",
+          className: "bg-red-500",
+      })
     return;
   }
     const user = {nom,email,password}
@@ -31,21 +29,17 @@ const Register = () => {
         const res= await axios.post(`${Api}/auth/register`,user)
         localStorage.setItem("token",res.data.token)
         localStorage.setItem("user",JSON.stringify(res.data.user))
-        localStorage.setItem("Message", JSON.stringify({
-            title: "Succes",
-            body: "Inscription reussie",
-            className: "bg-green-500"
-        }))
-        navigate("/DashBoard")
-        setOpen(true)
+        showToast({
+          body: "Inscription réussie",
+          className: "bg-green-500",
+      })
+      navigate("/DashBoard")
     } catch (error) {
-        console.error(error);
-        setMessage({
-            title: "Erreur",
-            body: error.response?.data?.message || " Une erreur est survenue",
-            className: "bg-red-500"
-        })
-        setOpen(true)
+       showToast({
+          title: "Erreur",
+          body: error.response?.data?.message || "Erreur surevenue",
+          className: "bg-red-500",
+        });
     }
   };
   return (
@@ -53,7 +47,6 @@ const Register = () => {
       onSubmit={submit}
       className="lg:max-w-lg   gap-4 flex flex-col p-4 w-full shadow-2xl rounded-lg m-4 bg-white"
     >
-        <Toasty open={open} setOpen={setOpen} {...message}/>
       <div className="p-4 w-20 rounded-lg h-20 bg-blue-500/60 text-3xl text-white font-bold mx-auto flex items-center justify-center">
         TF
       </div>

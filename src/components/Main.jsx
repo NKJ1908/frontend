@@ -15,10 +15,12 @@ const Main = () => {
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
   const [searchText, setSearchText] = useState("");
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const userId = user.id;
-  const searchedTasks = tasks.filter((task) =>
-    task.title.toLowerCase().includes(searchText.toLowerCase()) || task.description.toLowerCase().includes(searchText.toLowerCase())
+  const searchedTasks = tasks.filter(
+    (task) =>
+      task.title.toLowerCase().includes(searchText.toLowerCase()) ||
+      task.description.toLowerCase().includes(searchText.toLowerCase())
   );
   const filter = (p) => {
     if (p === "Tous") {
@@ -29,7 +31,7 @@ const Main = () => {
   };
   const FetchTodos = async () => {
     try {
-        setLoading(true)
+      setLoading(true);
       const res = await axios.get(`${Api}/tasks`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -40,19 +42,19 @@ const Main = () => {
       setFilteredTasks(res.data || []);
     } catch (error) {
       console.error(error);
-    }finally{
-        setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     FetchTodos();
-  },[]);
+  }, []);
 
   return (
     <div className="w-full min-h-screen gap-4">
       <Modal open={open} setOpen={setOpen} refrechTasks={FetchTodos} />
-      <div className="h-fit w-full bg-gray-200 p-4 flex flex-col lg:flex-row justify-between border-b border-blue-500/60">
+      <div className="h-fit w-full bg-gray-200 p-4 flex flex-col lg:flex-row justify-between border-b border-blue-500/60 shadow-lg">
         <div className="flex flex-col p-2 gap-2 justify-center">
           <h1 className="text-2xl font-bold text-gray-700">Tableau de Bord</h1>
           <p className="text-md text-gray-600">
@@ -87,7 +89,7 @@ const Main = () => {
         </div>
       </div>
       <h1 className="text-3xl font-bold text-gray-700 p-4">
-        Mes Tâches ({searchedTasks.length})
+        Mes Tâches ({tasks.length})
       </h1>
       <div className="w-full p-2 flex flex-col lg:flex-row items-center md:flex-row">
         <div className="w-full lg:w-3/4 rounded-xl p-2 relative flex items-center">
@@ -122,11 +124,12 @@ const Main = () => {
         </div>
       </div>
       <div className="p-4 w-full gap-4 flex flex-col">
-        {loading? (<Loader/>):
-        searchedTasks.length === 0 ? (
-          <div className="w-full flex flex-col justify-center font-bold items-center text-2xl text-gray-500 h-[500px]">
+        {loading ? (
+          <Loader />
+        ) : searchedTasks.length === 0 ? (
+          <div className="w-full flex flex-col justify-center font-bold items-center text-2xl text-gray-500 max-h-[500px]">
             <CircleOff className="w-10 h-10" />
-            <p>Aucune tâche trouvée</p>
+            <p>Aucune tâche trouvee</p>
           </div>
         ) : (
           <ul className="grid grid-cols-1 lg:grid-cols-2 gap-6 px-6 max-h-[500px] overflow-y-auto">

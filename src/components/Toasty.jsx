@@ -1,14 +1,14 @@
 import { Toast } from 'radix-ui';
 import React from 'react';
 
-const Toasty = ({title,body,className, open, setOpen}) => {
+const Toasty = ({body,className, open, setOpen}) => {
     return (
         <Toast.Provider swipeDirection='right'>
             <Toast.Root open={open} onOpenChange={setOpen} className={`p-4 rounded-lg shadow-2xl ${className}`}>
-                <Toast.Title className='text-xl text-white font-bold'>
-                    {title}
+                <Toast.Title className='text-lg text-white font-bold'>
+                    TaskFlow
                 </Toast.Title>
-                <Toast.Description className='text-white text-lg'>
+                <Toast.Description className='text-white text-md'>
                     {body}
                 </Toast.Description>
             </Toast.Root>
