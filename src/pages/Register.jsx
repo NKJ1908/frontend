@@ -45,10 +45,10 @@ const Register = () => {
   return (
     <Form.Root
       onSubmit={submit}
-      className="lg:max-w-lg   gap-4 flex flex-col p-4 w-full shadow-2xl rounded-lg m-4 bg-white"
+      className="lg:max-w-lg   gap-4 flex flex-col p-2 w-full shadow-2xl rounded-lg m-2 bg-white"
     >
-      <div className="p-4 w-20 rounded-lg h-20 bg-blue-500/60 text-3xl text-white font-bold mx-auto flex items-center justify-center">
-        TF
+      <div className="p-2 w-40 rounded-lg h-40 mx-auto flex items-center justify-center">
+        <img src="taskflow1.png" alt="" />
       </div>
       <h1 className="text-2xl font-bold text-gray-600 text-center">TaskFLow</h1>
       <p className="text-lg text-gray-700 text-center ">
