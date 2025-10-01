@@ -28,7 +28,7 @@ const Login = () => {
     } catch (error) {
       showToast({
           title: "Erreur",
-          body: error.response?.data?.message || "Erreur surevenue",
+          body: error.response?.data?.message || "Erreur survenue",
           className: "bg-red-500",
         });
     }
